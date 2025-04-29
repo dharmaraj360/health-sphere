@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthSphere</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+      .emergency-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #dc3545;
+          color: #fff;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          font-size: 1.2em;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          text-decoration: none;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .emergency-button:hover {
+          background-color: #c82333;
+      }
+      .emergency-icon {
+          width: 24px;
+          height: 24px;
+      }
+  </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">HealthSphere</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="popup.html" class="emergency-button" title="Emergency Page">
+              <img src="em.jpg" alt="Emergency" class="emergency-icon">
+          </a>   
+          </li>
+          <li class="nav-item btn1">
+            <a class="nav-link" style="color: #fff;" href="#features">Features</a>
+          </li>
+          <li class="nav-item btn1">
+            <a class="nav-link" style="color: #fff;" href="#about">About Us</a>
+          </li>
+          <li class="nav-item btn1">
+            <a class="nav-link" style="color: #fff;" href="#contact">Contact Us</a>
+          </li>
+          <li class="nav-item btn1">
+            <a class="nav-link" style="color: #fff;" href="/createuser.html">Complete Profile</a>
+          </li>
+          <li class="nav-item btn1">
+            <a class="nav-link" style="color: #fff;" href="/login.html">Log In</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="jumbotron text-center" id="hero-section">
+      <h1 class="display-4">HealthSphere Services</h1>
+      <p class="lead">
+        Comprehensive solutions for all your health needs at your fingertips.
+      </p>
+      <a href="#" class="btn btn-primary btn-lg">Learn More</a>
+      <a href="/dashboard.html" class="btn btn-secondary btn-lg"
+        >View Dashboard</a
+      >
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="container">
+      <h2 class="text-center my-5">Features</h2>
+      <div class="row">
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-wheelchair"></i>
+          <h3>Accessibility Services</h3>
+          <p>
+            Trained cab drivers with specialized equipment for elderly, obese,
+            and handicapped individuals.
+          </p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-pills"></i>
+          <h3>Medicine Reminders</h3>
+          <p>
+            Automated medication schedules to ensure timely intake of
+            medications.
+          </p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-user-md"></i>
+          <h3>Verified Doctors</h3>
+          <p>
+            List of trusted doctors with reviews and ratings to make informed
+            decisions.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-calendar-check"></i>
+          <h3>Appointment Booking</h3>
+          <p>Online booking for doctor appointments for convenience.</p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-vial"></i>
+          <h3>Lab Tests</h3>
+          <p>Book lab tests online with home sample collection services.</p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-stethoscope"></i>
+          <h3>Consultations</h3>
+          <p>Options for online and home consultations for flexibility.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-tint"></i>
+          <h3>Blood Donation</h3>
+          <p>
+            Connects donors with recipients to facilitate easy blood donations.
+          </p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-lock"></i>
+          <h3>Digital Locker</h3>
+          <p>
+            Secure storage for medical reports, lab tests, and other health
+            documents.
+          </p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-shipping-fast"></i>
+          <h3>Medicine Delivery</h3>
+          <p>Subscription-based monthly delivery of medications.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-video"></i>
+          <h3>Telehealth Services</h3>
+          <p>Virtual consultations with healthcare professionals.</p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-heartbeat"></i>
+          <h3>Health Monitoring</h3>
+          <p>Real-time health monitoring and alerts for chronic conditions.</p>
+        </div>
+        <div class="col-md-4 feature-box">
+          <i class="fas fa-ambulance"></i>
+          <h3>Emergency Assistance</h3>
+          <p>Immediate help during medical emergencies via the app.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="bg-light py-5">
+      <div class="container">
+        <h2 class="text-center">About Us</h2>
+        <p class="text-center">
+          Our mission is to transform healthcare accessibility and convenience.
+          We strive to provide comprehensive solutions for all your health needs
+          with a focus on user satisfaction.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="container py-5">
+      <h2 class="text-center">Contact Us</h2>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            class="form-control"
+            id="message"
+            rows="4"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+      <p>&copy; 2024 HealthSphere. All rights reserved.</p>
+      <div>
+        <a href="https://Facebook.com/coolgamer115" class="text-white mx-2"
+          >Facebook</a
+        >
+        <a href="#" class="text-white mx-2">Twitter</a>
+        <a href="https://Instagram.com/dinesh_ratnakar_" class="text-white mx-2"
+          >Instagram</a
+        >
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      // GSAP animations for the elements
+      gsap.from(".navbar", { duration: 1, y: -50, opacity: 0, ease: "bounce" });
+      gsap.from("#hero-section h1", { duration: 1, x: -100, opacity: 0, ease: "power2.inOut" });
+      gsap.from("#hero-section p", { duration: 1, x: 100, opacity: 0, ease: "power2.inOut", delay: 0.5 });
+      gsap.from("#hero-section .btn", { duration: 1, scale: 0, ease: "back", delay: 1, stagger: 0.2 });
+      gsap.from("#features .feature-box", { duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: "power2.out", delay: 1 });
+    </script>
+  </body>
+</html>

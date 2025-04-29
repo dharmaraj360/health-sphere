@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .card {
+        transition: all 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      .profile-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center">
+          <img
+            id="profileImage"
+            src="/api/placeholder/150/150"
+            alt="Profile"
+            class="profile-image mr-6"
+          />
+          <div>
+            <h1 class="text-3xl font-bold mb-2" id="userName">User Name</h1>
+            <p class="text-gray-600" id="userEmail">user@example.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Basic Info Card -->
+        <div class="card bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fas fa-user-circle mr-2 text-blue-500"></i> Basic
+            Information
+          </h2>
+          <div id="basicInfo"></div>
+        </div>
+
+        <!-- Medical Details Card -->
+        <div class="card bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fas fa-heartbeat mr-2 text-red-500"></i> Medical Details
+          </h2>
+          <div id="medicalDetails"></div>
+        </div>
+
+        <!-- BMI Chart Card -->
+        <div class="card bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fas fa-chart-line mr-2 text-green-500"></i> BMI Trend
+          </h2>
+          <canvas id="bmiChart"></canvas>
+        </div>
+
+        <!-- Recent Appointments Card -->
+        <div class="card bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fas fa-calendar-alt mr-2 text-purple-500"></i> Recent
+            Appointments
+          </h2>
+          <ul id="appointments" class="space-y-2"></ul>
+        </div>
+
+        <!-- Documents Card -->
+        <div class="card bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <i class="fas fa-file-alt mr-2 text-yellow-500"></i> Documents
+          </h2>
+          <ul id="documents" class="space-y-2"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Fetch user profile data
+      async function fetchUserProfile() {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/api/user/profile",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          return response.data;
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          return null;
+        }
+      }
+
+      // Populate basic info
+      function populateBasicInfo(data) {
+        document.getElementById("userName").textContent = data.name;
+        document.getElementById("userEmail").textContent = data.email;
+        const basicInfoDiv = document.getElementById("basicInfo");
+        basicInfoDiv.innerHTML = `
+                <p class="mb-2"><i class="fas fa-birthday-cake mr-2 text-blue-500"></i> <strong>Age:</strong> ${calculateAge(
+                  data.medicalDetails.dateOfBirth
+                )}</p>
+                <p class="mb-2"><i class="fas fa-venus-mars mr-2 text-blue-500"></i> <strong>Gender:</strong> ${
+                  data.medicalDetails.gender
+                }</p>
+                <p class="mb-2"><i class="fas fa-tint mr-2 text-blue-500"></i> <strong>Blood Type:</strong> ${
+                  data.medicalDetails.bloodType
+                }</p>
+            `;
+      }
+
+      // Populate medical details
+      function populateMedicalDetails(data) {
+        const medicalDetailsDiv = document.getElementById("medicalDetails");
+        medicalDetailsDiv.innerHTML = `
+                <p class="mb-2"><i class="fas fa-ruler-vertical mr-2 text-red-500"></i> <strong>Height:</strong> ${
+                  data.medicalDetails.height
+                } cm</p>
+                <p class="mb-2"><i class="fas fa-weight mr-2 text-red-500"></i> <strong>Weight:</strong> ${
+                  data.medicalDetails.weight
+                } kg</p>
+                <p class="mb-2"><i class="fas fa-allergies mr-2 text-red-500"></i> <strong>Allergies:</strong> ${
+                  data.medicalDetails.allergies.join(", ") || "None"
+                }</p>
+                <p class="mb-2"><i class="fas fa-pills mr-2 text-red-500"></i> <strong>Medications:</strong> ${
+                  data.medicalDetails.medications.join(", ") || "None"
+                }</p>
+            `;
+      }
+
+      // Calculate age from date of birth
+      function calculateAge(dateOfBirth) {
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        ) {
+          age--;
+        }
+        return age;
+      }
+
+      // Create BMI chart
+      function createBMIChart() {
+        const ctx = document.getElementById("bmiChart").getContext("2d");
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            datasets: [
+              {
+                label: "BMI",
+                data: [24.5, 24.3, 24.1, 23.9, 23.7, 23.5],
+                borderColor: "rgb(59, 130, 246)",
+                tension: 0.1,
+                fill: true,
+                backgroundColor: "rgba(59, 130, 246, 0.1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                title: {
+                  display: true,
+                  text: "BMI",
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Month",
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Populate recent appointments
+      function populateAppointments() {
+        const appointmentsList = document.getElementById("appointments");
+        const dummyAppointments = [
+          { date: "2024-08-01", doctor: "Dr. Smith", type: "Annual Checkup" },
+          {
+            date: "2024-08-15",
+            doctor: "Dr. Johnson",
+            type: "Dental Cleaning",
+          },
+          { date: "2024-09-05", doctor: "Dr. Lee", type: "Eye Exam" },
+        ];
+        appointmentsList.innerHTML = dummyAppointments
+          .map(
+            (app) =>
+              `<li class="flex items-center">
+                    <i class="fas fa-calendar-check mr-2 text-purple-500"></i>
+                    <span>${app.date} - ${app.type} with ${app.doctor}</span>
+                </li>`
+          )
+          .join("");
+      }
+
+      // Populate documents
+      function populateDocuments() {
+        const documentsList = document.getElementById("documents");
+        const dummyDocuments = [
+          { name: "Blood Test Results", date: "2024-07-15" },
+          { name: "X-Ray Report", date: "2024-06-30" },
+          { name: "Vaccination Record", date: "2024-05-20" },
+        ];
+        documentsList.innerHTML = dummyDocuments
+          .map(
+            (doc) =>
+              `<li class="flex items-center">
+                    <i class="fas fa-file-medical mr-2 text-yellow-500"></i>
+                    <span>${doc.name} (${doc.date})</span>
+                </li>`
+          )
+          .join("");
+      }
+
+      // Set profile image
+      function setProfileImage(user) {
+        if (user.profileImage) {
+          const blob = new Blob([Int8Array.from(user.profileImage.data.data)], {
+            type: user.profileImage.contentType,
+          });
+          const imageUrl = URL.createObjectURL(blob);
+          document.getElementById("profileImage").src = imageUrl;
+        }
+      }
+
+      // Initialize dashboard
+      async function initDashboard() {
+        const userData = await fetchUserProfile();
+        if (userData) {
+          setProfileImage(userData);
+          populateBasicInfo(userData);
+          populateMedicalDetails(userData);
+          createBMIChart();
+          populateAppointments();
+          populateDocuments();
+        } else {
+          console.error("Failed to load user data");
+        }
+      }
+
+      initDashboard();
+    </script>
+  </body>
+</html>

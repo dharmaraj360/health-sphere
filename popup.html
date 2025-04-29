@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Message Popup</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            z-index: 1000;
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #dc3545;
+            font-size: 1.5em;
+        }
+        .popup p {
+            color: #333;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        .popup .btn {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1em;
+        }
+        .popup .btn:hover {
+            background-color: #c82333;
+        }
+        .popup .btn.cancel {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+        .popup .btn.cancel:hover {
+            background-color: #5a6268;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Emergency Alert</h2>
+        <p>This is an emergency message. Patient PT193919 Dharamraj is under Emergency and his coordinates are lat:12.93422, long: 42.421221.</p>
+        <button class="btn" onclick="handleOkClick()">OK</button>
+        <button class="btn cancel" onclick="handleCancelClick()">Cancel</button>
+    </div>
+
+    <script>
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function handleCancelClick() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function handleOkClick() {
+            alert('Action taken');
+            handleCancelClick();
+        }
+
+        window.onload = function() {
+            setTimeout(showPopup, 3000);
+        };
+    </script>
+</body>
+</html>

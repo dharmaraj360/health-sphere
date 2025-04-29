@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+#hero-section {
+  background: url("dashboard.jpg") no-repeat center center;
+  background-size: cover;
+  color: rgb(10, 8, 8);
+  padding: 200px 0;
+}
+
+footer {
+  position: relative;
+  width: 100%;
+  bottom: 0;
+}
+
+.btn1{
+  display: flex;
+  padding: 0px;
+  border: 1px solid black;
+  margin: 3px;
+  background-color: rgb(33, 31, 29);
+  color: white;
+}
+
+.btn1:hover{
+  background-color: rgb(148, 64, 196);
+}
